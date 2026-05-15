@@ -13,9 +13,9 @@ type ModalState = "closed"|"wallet"|"deploy-1"|"deploy-2"|"deploying"|"deploy-do
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const ARC_CHAIN = {
-  chainId: "0x4E51005F",
+  chainId: "0x4D0112",
   chainName: "Arc Testnet",
-  nativeCurrency: { name: "ARC", symbol: "ARC", decimals: 18 },
+  nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 6 },
   rpcUrls: ["https://rpc.testnet.arc.network"],
   blockExplorerUrls: ["https://testnet.arcscan.app"],
 };
