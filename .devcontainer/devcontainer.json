@@ -1,0 +1,23 @@
+{
+  "name": "Arc Agent Project",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "Agent Marketplace", "onAutoForward": "openPreview" }
+  },
+  "postCreateCommand": "cd agent-marketplace && npm install && cd ../erc8004-quickstart && npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2
+      }
+    }
+  }
+}
