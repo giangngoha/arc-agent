@@ -1,8 +1,6 @@
 {
-  "version": 2,
-  "name": "arc-agent-marketplace",
-  "buildCommand": "cd agent-marketplace && npm run build",
-  "outputDirectory": "agent-marketplace/.next",
-  "installCommand": "cd agent-marketplace && npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
   "framework": "nextjs"
 }
