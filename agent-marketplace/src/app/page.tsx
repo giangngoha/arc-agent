@@ -16,7 +16,7 @@ type ModalState =
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const ARC_CHAIN = {
-  chainId: "0x4D0112", // 5042002
+  chainId: "0x4CEF52", // 5042002
   chainName: "Arc Testnet",
   nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 6 },
   rpcUrls: ["https://rpc.testnet.arc.network"],
