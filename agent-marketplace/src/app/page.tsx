@@ -417,8 +417,12 @@ export default function Page() {
         const amount = E.parseUnits(totalUsdc.toFixed(decimals), decimals);
 
         // Transfer USDC to agent owner
+        // Normalize address
+        const E2 = (window as unknown as {ethers:{getAddress:(a:string)=>string}}).ethers;
+        const toAddr = E2.getAddress(hireAgent.owner.toLowerCase());
+
         const tx = await (usdcContract as {transfer:(to:string,amt:bigint)=>Promise<{hash:string;wait:()=>Promise<unknown>}>})
-          .transfer(hireAgent.owner, amount);
+          .transfer(toAddr, amount);
         txHash = tx.hash;
         await tx.wait();
       } else {
