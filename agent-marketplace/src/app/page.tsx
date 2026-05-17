@@ -396,50 +396,61 @@ export default function Page() {
   function openHire(a:Agent){ needWallet(()=>{setHireAgent(a);setHireJob("");setHireTx("");setHireError("");setModal("hire-1");}); }
 
   async function execHire(){
-    if(!hireAgent) return;
-    setModal("hiring");
-    try{
-      const totalUsdc = hireAgent.price * 1.02; // include 2% platform fee
+  if(!hireAgent) return;
+  setModal("hiring");
+  try{
+    let txHash = "0x"+rh(64);
 
-      let txHash = "0x"+rh(64);
+    // Kiểm tra địa chỉ hợp lệ — không phải zero address hoặc seed address
+    const isRealAddress = (addr: string) => {
+      const lower = addr.toLowerCase();
+      // Loại trừ seed agents (0x000...001 đến 0x000...00f) và demo
+      if(lower.startsWith("0xdemo")) return false;
+      if(/^0x0{38}[0-9a-f]{2}$/.test(lower)) return false;
+      return addr.length === 42;
+    };
 
-      if(!isDemo){
-        const E = (window as unknown as {ethers:{Contract:new(a:string,b:string[],s:unknown)=>unknown;parseUnits:(v:string,d:number)=>bigint}}).ethers;
+    if(!isDemo && isRealAddress(hireAgent.owner)){
+      const E = (window as unknown as {ethers:{
+        Contract:new(a:string,b:string[],s:unknown)=>unknown;
+        parseUnits:(v:string,d:number)=>bigint;
+        getAddress:(a:string)=>string;
+      }}).ethers;
 
-        // Get USDC decimals (Arc uses 6)
-        const usdcContract = new E.Contract(USDC_ADDR, USDC_ABI, signerRef.current);
+      const usdcContract = new E.Contract(USDC_ADDR, USDC_ABI, signerRef.current);
+      const totalUsdc = hireAgent.price * 1.02;
 
-        let decimals = 6;
-        try{
-          decimals = await (usdcContract as {decimals:()=>Promise<number>}).decimals();
-        }catch(_){}
+      let decimals = 6;
+      try{
+        decimals = await (usdcContract as {decimals:()=>Promise<number>}).decimals();
+      }catch(_){}
 
-        const amount = E.parseUnits(totalUsdc.toFixed(decimals), decimals);
+      const amount = E.parseUnits(totalUsdc.toFixed(decimals), decimals);
+      const toAddr = E.getAddress(hireAgent.owner);
 
-        // Transfer USDC to agent owner
-        // Normalize address
-        const E2 = (window as unknown as {ethers:{getAddress:(a:string)=>string}}).ethers;
-        const toAddr = E2.getAddress(hireAgent.owner.toLowerCase());
+      const tx = await (usdcContract as {
+        transfer:(to:string,amt:bigint)=>Promise<{hash:string;wait:()=>Promise<unknown>}>
+      }).transfer(toAddr, amount);
 
-        const tx = await (usdcContract as {transfer:(to:string,amt:bigint)=>Promise<{hash:string;wait:()=>Promise<unknown>}>})
-          .transfer(toAddr, amount);
-        txHash = tx.hash;
-        await tx.wait();
-      } else {
-        await sleep(2000);
-      }
+      txHash = tx.hash;
+      await tx.wait();
 
-      setHireTx(txHash);
-      setModal("hire-done");
-
-      // Update review count locally
-      setAgents(prev=>prev.map(a=>a.id===hireAgent.id?{...a,reviews:a.reviews+1}:a));
-    }catch(e:unknown){
-      setHireError((e as {message?:string}).message||"Transaction rejected.");
-      setModal("hire-1"); // go back, show error
-      showToast("Payment failed: "+(e as {message?:string}).message,"err");
+    } else {
+      // Seed agents hoặc demo — simulate
+      await sleep(2000);
     }
+
+    setHireTx(txHash);
+    setModal("hire-done");
+    setAgents(prev=>prev.map(a=>a.id===hireAgent.id?{...a,reviews:a.reviews+1}:a));
+
+  }catch(e:unknown){
+    const msg = (e as {message?:string}).message || "Transaction rejected.";
+    setHireError(msg);
+    setModal("hire-1");
+    showToast("Payment failed: "+msg,"err");
   }
+}
 
   // ── Modal helpers ─────────────────────────────────────────────────────────
   function closeModal(){ if(modal==="deploying"||modal==="hiring") return; setModal("closed"); }
@@ -832,7 +843,8 @@ export default function Page() {
                   <div style={{width:64,height:64,borderRadius:"50%",background:"rgba(0,255,163,.08)",border:"2px solid rgba(0,255,163,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:28,margin:"0 auto 16px",animation:"pop .4s cubic-bezier(.34,1.56,.64,1) both"}}>✓</div>
                   <p style={{textAlign:"center",fontSize:14,color:"var(--muted2)",marginBottom:20}}>
                     <span style={{color:"var(--green)",fontWeight:700,fontSize:20}}>${(hireAgent.price*1.02).toFixed(2)} USDC</span><br/>
-                    {isDemo?"(simulated) sent to":"sent to"} Agent #{hireAgent.id}
+                    {(isDemo||hireAgent.owner.toLowerCase().startsWith("0x000000000000000000000000000000000000000"))
+                      ?"(demo) sent to":"sent to"} Agent #{hireAgent.id}
                   </p>
                   <TxBox label="Transaction Hash" value={hireTx}/>
                   <div style={{display:"flex",gap:10}}>
