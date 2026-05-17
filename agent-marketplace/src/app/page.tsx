@@ -16,7 +16,7 @@ type ModalState =
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const ARC_CHAIN = {
-  chainId: "0x4D0112", // 5042002
+  chainId: "0x4CEF52", // 5042002
   chainName: "Arc Testnet",
   nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 6 },
   rpcUrls: ["https://rpc.testnet.arc.network"],
@@ -28,6 +28,8 @@ const ARC_CHAIN_ID_DEC = 5042002;
 const ID_ADDR   = "0x8004A818BFB912233c491871b3d84c89A494BD9e";
 const REP_ADDR  = "0x8004B663056A597Dffe9eCcC1965A193B7388713";
 
+// USDC on Arc Testnet — native gas token, use standard ERC-20 ABI for transfers
+// Arc uses USDC as the gas token; address below is the canonical USDC on Arc Testnet
 const USDC_ADDR = "0xf2298b9b79A0Cb4a24E671A3e4B84AaA8d29C37";
 
 const ID_ABI = [
@@ -54,13 +56,12 @@ const TYPE_COLORS: Record<string,string> = {trading:"#00e5ff",yield:"#00ffa3",nf
 
 // Seed agents shown while loading from chain
 const SEED_AGENTS: Agent[] = [
-  {id:"1",owner:"0x1A2B3c4D5e6F7a8B9c0D1E2F3a4B5c6D7e8F9a0B",name:"DeFi Arbitrage Agent",description:"Autonomous trading agent for cross-DEX arbitrage on Arc. Monitors price discrepancies and executes trades within milliseconds.",type:"trading",caps:["Arbitrage Detection","Liquidity Monitoring","Auto Execution"],price:25,reputation:94,reviews:127,verified:true,icon:"◈",color:"#00e5ff",bg:"rgba(0,229,255,.08)"},
-  {id:"2",owner:"0x2B3c4D5e6F7a8B9c0D1E2F3a4B5c6D7e8F9a0B1C",name:"Yield Optimizer Pro",description:"Automatically rebalances yield farming positions to maximize APY while managing risk and reducing impermanent loss.",type:"yield",caps:["Yield Farming","Auto Rebalance","Risk Management"],price:15,reputation:88,reviews:84,verified:true,icon:"⬡",color:"#00ffa3",bg:"rgba(0,255,163,.08)"},
-  // FIXED: Chuyển owner về lowercase để tránh lỗi bad address checksum
-  {id:"3",owner:"0x3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d",name:"NFT Sniper Bot",description:"Monitors NFT marketplaces for undervalued listings based on rarity scores and floor price analysis.",type:"nft",caps:["NFT Monitoring","Rarity Analysis","Floor Tracking"],price:10,reputation:76,reviews:42,verified:true,icon:"◆",color:"#a855f7",bg:"rgba(168,85,247,.08)"},
-  {id:"4",owner:"0x4D5e6F7a8B9c0D1E2F3a4B5c6D7e8F9a0B1c2D3E",name:"Liquidity Guardian",description:"Manages concentrated liquidity positions in AMM pools. Adjusts ranges to maximize fee collection.",type:"liquidity",caps:["Range Management","Fee Collection","IL Control"],price:35,reputation:97,reviews:203,verified:true,icon:"◉",color:"#ffb700",bg:"rgba(255,183,0,.08)"},
-  {id:"5",owner:"0x5E6f7A8b9C0d1E2f3A4b5C6d7E8f9A0b1C2d3E4F",name:"Risk Sentinel",description:"Monitors wallet exposure around the clock and automatically hedges positions when risk thresholds are breached.",type:"risk",caps:["Risk Monitoring","Auto Hedge","Alert System"],price:20,reputation:91,reviews:156,verified:true,icon:"◎",color:"#ff3d6b",bg:"rgba(255,61,107,.08)"},
-  {id:"6",owner:"0x6F7a8B9c0D1E2F3a4B5c6D7e8F9a0B1c2D3e4F5A",name:"Cross-Chain Bridge Scout",description:"Finds the cheapest bridge routes, executing multi-hop transfers to minimize fees and slippage on Arc.",type:"bridge",caps:["Route Optimization","Multi-Hop","Fee Comparison"],price:8,reputation:65,reviews:18,verified:false,icon:"⬢",color:"#38bdf8",bg:"rgba(56,189,248,.08)"},
+  {id:"1",owner:"0x0000000000000000000000000000000000000001",name:"DeFi Arbitrage Agent",description:"Autonomous trading agent for cross-DEX arbitrage on Arc. Monitors price discrepancies and executes trades within milliseconds.",type:"trading",caps:["Arbitrage Detection","Liquidity Monitoring","Auto Execution"],price:25,reputation:94,reviews:127,verified:true,icon:"◈",color:"#00e5ff",bg:"rgba(0,229,255,.08)"},
+  {id:"2",owner:"0x0000000000000000000000000000000000000002",name:"Yield Optimizer Pro",description:"Automatically rebalances yield farming positions to maximize APY while managing risk and reducing impermanent loss.",type:"yield",caps:["Yield Farming","Auto Rebalance","Risk Management"],price:15,reputation:88,reviews:84,verified:true,icon:"⬡",color:"#00ffa3",bg:"rgba(0,255,163,.08)"},
+  {id:"3",owner:"0x0000000000000000000000000000000000000003",name:"NFT Sniper Bot",description:"Monitors NFT marketplaces for undervalued listings based on rarity scores and floor price analysis.",type:"nft",caps:["NFT Monitoring","Rarity Analysis","Floor Tracking"],price:10,reputation:76,reviews:42,verified:true,icon:"◆",color:"#a855f7",bg:"rgba(168,85,247,.08)"},
+  {id:"4",owner:"0x0000000000000000000000000000000000000004",name:"Liquidity Guardian",description:"Manages concentrated liquidity positions in AMM pools. Adjusts ranges to maximize fee collection.",type:"liquidity",caps:["Range Management","Fee Collection","IL Control"],price:35,reputation:97,reviews:203,verified:true,icon:"◉",color:"#ffb700",bg:"rgba(255,183,0,.08)"},
+  {id:"5",owner:"0x0000000000000000000000000000000000000005",name:"Risk Sentinel",description:"Monitors wallet exposure around the clock and automatically hedges positions when risk thresholds are breached.",type:"risk",caps:["Risk Monitoring","Auto Hedge","Alert System"],price:20,reputation:91,reviews:156,verified:true,icon:"◎",color:"#ff3d6b",bg:"rgba(255,61,107,.08)"},
+  {id:"6",owner:"0x0000000000000000000000000000000000000006",name:"Cross-Chain Bridge Scout",description:"Finds the cheapest bridge routes, executing multi-hop transfers to minimize fees and slippage on Arc.",type:"bridge",caps:["Route Optimization","Multi-Hop","Fee Comparison"],price:8,reputation:65,reviews:18,verified:false,icon:"⬢",color:"#38bdf8",bg:"rgba(56,189,248,.08)"},
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -68,6 +69,7 @@ const sleep  = (ms: number) => new Promise(r => setTimeout(r, ms));
 const rh     = (n: number)  => Array.from({length:n},()=>Math.floor(Math.random()*16).toString(16)).join("");
 const short  = (a: string)  => a.slice(0,6)+"…"+a.slice(-4);
 
+// Decode base64 data URI metadata safely
 function decodeMetadata(uri: string): Partial<Agent> {
   try {
     if (uri.startsWith("data:application/json;base64,")) {
@@ -133,10 +135,12 @@ export default function Page() {
   const [typeFilter,   setTypeFilter]   = useState("all");
   const [ethersReady,  setEthersReady]  = useState(false);
 
+  // Wallet
   const [walletAddr, setWalletAddr] = useState<string|null>(null);
   const [isDemo,     setIsDemo]     = useState(false);
-  const signerRef   = useRef<any>(null);
+  const signerRef   = useRef<unknown>(null);
 
+  // Deploy
   const [dName,  setDName]  = useState("");
   const [dType,  setDType]  = useState("");
   const [dDesc,  setDDesc]  = useState("");
@@ -145,11 +149,13 @@ export default function Page() {
   const [deployResult, setDeployResult] = useState<{tx:string;agentId:string}|null>(null);
   const [deployError,  setDeployError]  = useState("");
 
+  // Hire
   const [hireAgent, setHireAgent] = useState<Agent|null>(null);
   const [hireJob,   setHireJob]   = useState("");
   const [hireTx,    setHireTx]    = useState("");
   const [hireError, setHireError] = useState("");
 
+  // Toast
   const [toast, setToast] = useState<{msg:string;type:string}|null>(null);
   const showToast = useCallback((msg:string,type="info")=>{
     setToast({msg,type}); setTimeout(()=>setToast(null),4000);
@@ -157,6 +163,7 @@ export default function Page() {
 
   const pendingRef = useRef<(()=>void)|null>(null);
 
+  // ── Particle canvas ──────────────────────────────────────────────────────
   useEffect(()=>{
     const canvas=canvasRef.current; if(!canvas) return;
     const ctx=canvas.getContext("2d")!;
@@ -187,61 +194,76 @@ export default function Page() {
     return()=>{cancelAnimationFrame(raf);window.removeEventListener("resize",resize);window.removeEventListener("scroll",onScroll);};
   },[]);
 
+  // ── Load real agents from blockchain ─────────────────────────────────────
   const loadChainAgents = useCallback(async()=>{
-    if(!ethersReady||chainLoaded||chainLoading) return;
-    setChainLoading(true);
-    try{
-      const E = (window as any).ethers;
-      const provider = new E.JsonRpcProvider("https://rpc.testnet.arc.network");
+  if(!ethersReady||chainLoaded||chainLoading) return;
+  setChainLoading(true);
+  try{
+    const E = (window as unknown as {ethers:{
+      JsonRpcProvider:new(url:string)=>unknown;
+      Contract:new(a:string,b:string[],p:unknown)=>unknown;
+    }}).ethers;
 
-      const latestBlock = await provider.getBlockNumber();
-      const fromBlock   = Math.max(0, latestBlock - 50000);
+    const provider = new E.JsonRpcProvider("https://rpc.testnet.arc.network");
 
-      const iface = new E.Interface(ID_ABI);
-      const transferTopic = iface.getEvent("Transfer").topicHash;
-      const zeroAddr = "0x0000000000000000000000000000000000000000";
-      const paddedZero = "0x000000000000000000000000"+zeroAddr.slice(2);
+    // Lấy block hiện tại
+    const latestBlock = await (provider as {getBlockNumber:()=>Promise<number>}).getBlockNumber();
+    // Chỉ quét 10000 block gần nhất (giới hạn RPC của Arc)
+    const fromBlock = Math.max(0, latestBlock - 10000);
 
-      const logs = await provider.getLogs({
-        address: ID_ADDR,
-        topics: [transferTopic, paddedZero],
-        fromBlock: `0x${fromBlock.toString(16)}`,
-        toBlock: "latest",
-      });
+    const contract = new E.Contract(ID_ADDR, ID_ABI, provider);
 
-      if(!logs.length){ setChainLoading(false); return; }
+    // Dùng queryFilter thay vì getLogs thủ công — đơn giản và ít lỗi hơn
+    const filter = {
+      address: ID_ADDR,
+      topics: [
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef", // Transfer topic
+        "0x0000000000000000000000000000000000000000000000000000000000000000", // from zero = mint
+      ],
+      fromBlock: `0x${fromBlock.toString(16)}`,
+      toBlock: "latest",
+    };
 
-      const contract = new E.Contract(ID_ADDR, ID_ABI, provider);
+    const logs = await (provider as {getLogs:(f:unknown)=>Promise<{topics:string[]}[]>}).getLogs(filter);
 
-      const chainAgents: Agent[] = [];
-      for(const log of logs.slice(-30)){
-        try{
-          const tokenId = BigInt(log.topics[3]).toString();
-          const [owner, uri] = await Promise.all([
-            contract.ownerOf(tokenId),
-            contract.tokenURI(tokenId),
-          ]);
-          chainAgents.push(agentFromChainData(tokenId, owner, uri));
-        }catch(_){}
-      }
-
-      if(chainAgents.length > 0){
-        setAgents(prev=>{
-          const chainIds = new Set(chainAgents.map(a=>a.id));
-          const seedOnly = prev.filter(a=>!chainIds.has(a.id));
-          return [...chainAgents, ...seedOnly];
-        });
-      }
-      setChainLoaded(true);
-    }catch(e){
-      console.warn("Could not load chain agents:", e);
-    }finally{
+    if(!logs.length){
       setChainLoading(false);
+      setChainLoaded(true);
+      return;
     }
-  },[ethersReady, chainLoaded, chainLoading]);
+
+    const chainAgents: Agent[] = [];
+    // Lấy tối đa 20 agent gần nhất
+    for(const log of logs.slice(-20)){
+      try{
+        const tokenId = BigInt(log.topics[3]).toString();
+        const [owner, uri] = await Promise.all([
+          (contract as {ownerOf:(id:string)=>Promise<string>}).ownerOf(tokenId),
+          (contract as {tokenURI:(id:string)=>Promise<string>}).tokenURI(tokenId),
+        ]);
+        chainAgents.push(agentFromChainData(tokenId, owner, uri));
+      }catch(_){ continue; }
+    }
+
+    if(chainAgents.length > 0){
+      setAgents(prev=>{
+        const chainIds = new Set(chainAgents.map(a=>a.id));
+        const seedOnly = SEED_AGENTS.filter(a=>!chainIds.has(a.id));
+        return [...chainAgents, ...seedOnly];
+      });
+    }
+    setChainLoaded(true);
+  }catch(e){
+    console.warn("Chain load error:", e);
+    // Không throw — fallback về seed data
+  }finally{
+    setChainLoading(false);
+  }
+},[ethersReady, chainLoaded, chainLoading]);
 
   useEffect(()=>{ loadChainAgents(); },[loadChainAgents]);
 
+  // ── Filter ───────────────────────────────────────────────────────────────
   const filtered = useMemo(()=>{
     return [...agents]
       .filter(a=>(typeFilter==="all"||a.type===typeFilter)&&
@@ -255,38 +277,43 @@ export default function Page() {
         b.reviews-a.reviews);
   },[agents,typeFilter,search,sortBy]);
 
+  // ── Wallet ───────────────────────────────────────────────────────────────
   function needWallet(fn:()=>void){ if(walletAddr){fn();return;} pendingRef.current=fn; setModal("wallet"); }
 
   async function connectMM(){
-    const eth=(window as any).ethereum;
+    const eth=(window as unknown as {ethereum?:unknown}).ethereum;
     if(!eth){showToast("MetaMask not found — install it first","err");return;}
     try{
-      await eth.request({method:"eth_requestAccounts"});
+      await (eth as {request:(a:unknown)=>Promise<unknown>}).request({method:"eth_requestAccounts"});
+
+      // Add Arc Testnet
       try{
-        await eth.request({
+        await (eth as {request:(a:unknown)=>Promise<unknown>}).request({
           method:"wallet_addEthereumChain",params:[ARC_CHAIN]
         });
       }catch(_){}
 
+      // Switch to Arc Testnet
       try{
-        await eth.request({
+        await (eth as {request:(a:unknown)=>Promise<unknown>}).request({
           method:"wallet_switchEthereumChain",params:[{chainId:ARC_CHAIN.chainId}]
         });
       }catch(switchErr){
         showToast("Please switch to Arc Testnet in MetaMask","err"); return;
       }
 
-      const chainId = await eth.request({method:"eth_chainId"});
+      // Verify chain ID
+      const chainId = await (eth as {request:(a:unknown)=>Promise<string>}).request({method:"eth_chainId"});
       const chainIdDec = parseInt(chainId as string, 16);
       if(chainIdDec !== ARC_CHAIN_ID_DEC){
         showToast(`Wrong network (chainId ${chainIdDec}). Please switch to Arc Testnet manually.`,"err");
         return;
       }
 
-      const E = (window as any).ethers;
+      const E = (window as unknown as {ethers:{BrowserProvider:new(p:unknown)=>unknown}}).ethers;
       const prov = new E.BrowserProvider(eth);
-      const sgn  = await prov.getSigner();
-      const addr = await sgn.getAddress();
+      const sgn  = await (prov as {getSigner:()=>Promise<unknown>}).getSigner();
+      const addr = await (sgn as {getAddress:()=>Promise<string>}).getAddress();
       signerRef.current = sgn;
       setWalletAddr(addr); setIsDemo(false); setModal("closed");
       showToast("Connected to Arc Testnet ✓","ok");
@@ -305,6 +332,7 @@ export default function Page() {
     if(pendingRef.current){pendingRef.current();pendingRef.current=null;}
   }
 
+  // ── Deploy ───────────────────────────────────────────────────────────────
   function openDeploy(){ needWallet(()=>{resetDeploy();setModal("deploy-1");}); }
   function resetDeploy(){ setDName("");setDType("");setDDesc("");setDPrice("");setDCaps([]);setDeployResult(null);setDeployError(""); }
   function toggleCap(c:string){ setDCaps(prev=>prev.includes(c)?prev.filter(x=>x!==c):[...prev,c]); }
@@ -331,11 +359,12 @@ export default function Page() {
       let agentId = String(Math.floor(Math.random()*9000)+1000);
 
       if(!isDemo){
-        const E = (window as any).ethers;
+        const E = (window as unknown as {ethers:{Contract:new(a:string,b:string[],s:unknown)=>unknown}}).ethers;
         const contract = new E.Contract(ID_ADDR, ID_ABI, signerRef.current);
-        const tx = await contract.register(uri);
+        const tx = await (contract as {register:(u:string)=>Promise<{hash:string;wait:()=>Promise<{logs:{topics:string[]}[]}>}>}).register(uri);
         txHash = tx.hash;
         const receipt = await tx.wait();
+        // Extract agent ID from Transfer event (topic[3] = tokenId)
         for(const log of receipt.logs){
           if(log.topics && log.topics[3]){
             try{ agentId = String(parseInt(log.topics[3],16)); break; }catch(_){}
@@ -345,6 +374,7 @@ export default function Page() {
         await sleep(2200);
       }
 
+      // Add to local state immediately (persists until page reload)
       const newAgent: Agent = {
         id:agentId, owner:walletAddr!, name:dName, description:dDesc,
         type:dType, caps:dCaps, price:Number(dPrice)||0,
@@ -356,35 +386,39 @@ export default function Page() {
       setDeployResult({tx:txHash, agentId});
       setModal("deploy-done");
       showToast("Agent deployed onchain ✓","ok");
-    }catch(e:any){
-      setDeployError(e.message||"Transaction rejected.");
+    }catch(e:unknown){
+      setDeployError((e as {message?:string}).message||"Transaction rejected.");
       setModal("deploy-err");
     }
   }
 
+  // ── Hire (real USDC transfer) ─────────────────────────────────────────────
   function openHire(a:Agent){ needWallet(()=>{setHireAgent(a);setHireJob("");setHireTx("");setHireError("");setModal("hire-1");}); }
 
   async function execHire(){
     if(!hireAgent) return;
     setModal("hiring");
     try{
-      const totalUsdc = hireAgent.price * 1.02;
+      const totalUsdc = hireAgent.price * 1.02; // include 2% platform fee
 
       let txHash = "0x"+rh(64);
 
       if(!isDemo){
-        const E = (window as any).ethers;
+        const E = (window as unknown as {ethers:{Contract:new(a:string,b:string[],s:unknown)=>unknown;parseUnits:(v:string,d:number)=>bigint}}).ethers;
+
+        // Get USDC decimals (Arc uses 6)
         const usdcContract = new E.Contract(USDC_ADDR, USDC_ABI, signerRef.current);
 
         let decimals = 6;
         try{
-          decimals = await usdcContract.decimals();
+          decimals = await (usdcContract as {decimals:()=>Promise<number>}).decimals();
         }catch(_){}
 
         const amount = E.parseUnits(totalUsdc.toFixed(decimals), decimals);
 
-        // FIXED: Dùng E.getAddress để chuẩn hóa checksum địa chỉ người nhận
-        const tx = await (usdcContract as any).transfer(E.getAddress(hireAgent.owner), amount);
+        // Transfer USDC to agent owner
+        const tx = await (usdcContract as {transfer:(to:string,amt:bigint)=>Promise<{hash:string;wait:()=>Promise<unknown>}>})
+          .transfer(hireAgent.owner, amount);
         txHash = tx.hash;
         await tx.wait();
       } else {
@@ -393,14 +427,17 @@ export default function Page() {
 
       setHireTx(txHash);
       setModal("hire-done");
+
+      // Update review count locally
       setAgents(prev=>prev.map(a=>a.id===hireAgent.id?{...a,reviews:a.reviews+1}:a));
-    }catch(e:any){
-      setHireError(e.message||"Transaction rejected.");
-      setModal("hire-1");
-      showToast("Payment failed: "+e.message,"err");
+    }catch(e:unknown){
+      setHireError((e as {message?:string}).message||"Transaction rejected.");
+      setModal("hire-1"); // go back, show error
+      showToast("Payment failed: "+(e as {message?:string}).message,"err");
     }
   }
 
+  // ── Modal helpers ─────────────────────────────────────────────────────────
   function closeModal(){ if(modal==="deploying"||modal==="hiring") return; setModal("closed"); }
   function copyAddr(addr:string, el:HTMLElement){
     navigator.clipboard.writeText(addr);
@@ -425,6 +462,7 @@ export default function Page() {
 
         <div style={{position:"relative",zIndex:2}}>
 
+          {/* ── HEADER ─────────────────────────────────────────────────── */}
           <header style={{position:"sticky",top:0,zIndex:100,height:64,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 32px",borderBottom:`1px solid ${scrolled?"var(--border)":"transparent"}`,background:scrolled?"rgba(3,6,15,.9)":"transparent",backdropFilter:scrolled?"blur(20px)":"none",transition:"all .3s"}}>
             <div style={{display:"flex",alignItems:"center",gap:10}}>
               <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
@@ -473,6 +511,7 @@ export default function Page() {
             </div>
           </header>
 
+          {/* ── HERO ───────────────────────────────────────────────────── */}
           <section style={{minHeight:"90vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"80px 32px 60px",textAlign:"center",position:"relative",overflow:"hidden"}}>
             <div style={{position:"absolute",top:-100,left:"50%",transform:"translateX(-50%)",width:800,height:500,background:"radial-gradient(ellipse,rgba(0,229,255,.07) 0%,transparent 65%)",pointerEvents:"none"}}/>
             <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"var(--surface)",border:"1px solid var(--border2)",borderRadius:100,padding:"6px 16px",fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:"var(--muted2)",marginBottom:32,letterSpacing:".05em"}}>
@@ -504,6 +543,7 @@ export default function Page() {
             </div>
           </section>
 
+          {/* ── STATS ──────────────────────────────────────────────────── */}
           <div style={{borderTop:"1px solid var(--border)",borderBottom:"1px solid var(--border)",background:"rgba(8,14,30,.6)"}}>
             <div style={{maxWidth:1200,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)"}}>
               {[
@@ -520,6 +560,7 @@ export default function Page() {
             </div>
           </div>
 
+          {/* ── MARKETPLACE ────────────────────────────────────────────── */}
           <section id="marketplace" style={{maxWidth:1200,margin:"0 auto",padding:"64px 32px"}}>
             <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",marginBottom:32,flexWrap:"wrap",gap:16}}>
               <div>
@@ -604,6 +645,7 @@ export default function Page() {
               ))}
             </div>
 
+            {/* Reload from chain button */}
             <div style={{textAlign:"center",marginTop:40}}>
               <button onClick={()=>{setChainLoaded(false);setTimeout(loadChainAgents,100);}}
                 style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,padding:"10px 24px",borderRadius:10,border:"1px solid var(--border2)",background:"transparent",color:chainLoading?"var(--amber)":"var(--muted)",cursor:"pointer",transition:"all .2s"}}
@@ -618,11 +660,13 @@ export default function Page() {
           </footer>
         </div>
 
+        {/* ── MODALS ─────────────────────────────────────────────────────── */}
         {modal!=="closed"&&(
           <div onClick={e=>{if(e.target===e.currentTarget)closeModal();}}
             style={{position:"fixed",inset:0,zIndex:200,background:"rgba(3,6,15,.82)",backdropFilter:"blur(16px)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
             <div style={{width:"100%",maxWidth:480,background:"var(--card)",border:"1px solid var(--border2)",borderRadius:24,overflow:"hidden",boxShadow:"0 40px 120px rgba(0,0,0,.6)",animation:"modal-in .25s cubic-bezier(.34,1.56,.64,1) both",maxHeight:"90vh",overflowY:"auto"}}>
 
+              {/* WALLET */}
               {modal==="wallet"&&<>
                 <MHdr title="Connect Wallet" onClose={closeModal}/>
                 <div style={{padding:"22px 24px"}}>
@@ -636,7 +680,7 @@ export default function Page() {
                       <div style={{width:36,height:36,borderRadius:10,background:"rgba(0,229,255,.08)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18}}>{w.icon}</div>
                       <div><div style={{fontWeight:700}}>{w.label}</div><div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,color:"var(--muted)",marginTop:2}}>{w.sub}</div></div>
                       <span style={{marginLeft:"auto",fontFamily:"'JetBrains Mono',monospace",fontSize:9,padding:"3px 8px",borderRadius:4,border:"1px solid rgba(0,229,255,.3)",color:"var(--cyan)",background:"rgba(0,229,255,.08)"}}>
-                        {typeof window!=="undefined"&&(window as any).ethereum?"DETECTED":"NOT FOUND"}
+                        {typeof window!=="undefined"&&(window as unknown as {ethereum?:unknown}).ethereum?"DETECTED":"NOT FOUND"}
                       </span>
                     </div>
                   ))}
@@ -654,6 +698,7 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* DEPLOY 1 */}
               {modal==="deploy-1"&&<>
                 <MHdr title="Deploy AI Agent" onClose={closeModal}/>
                 <div style={{padding:"22px 24px"}}>
@@ -684,6 +729,7 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* DEPLOY 2 */}
               {modal==="deploy-2"&&<>
                 <MHdr title="Review & Sign" onClose={closeModal}/>
                 <div style={{padding:"22px 24px"}}>
@@ -701,6 +747,7 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* DEPLOYING */}
               {modal==="deploying"&&<>
                 <MHdr title="Deploying…" onClose={()=>{}}/>
                 <div style={{padding:"48px 24px",textAlign:"center"}}>
@@ -710,6 +757,7 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* DEPLOY DONE */}
               {modal==="deploy-done"&&deployResult&&<>
                 <MHdr title="Agent Deployed!" onClose={closeModal}/>
                 <div style={{padding:"22px 24px"}}>
@@ -728,6 +776,7 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* DEPLOY ERR */}
               {modal==="deploy-err"&&<>
                 <MHdr title="Deploy Failed" onClose={closeModal}/>
                 <div style={{padding:"22px 24px"}}>
@@ -736,12 +785,13 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* HIRE 1 */}
               {modal==="hire-1"&&hireAgent&&<>
                 <MHdr title="Hire Agent" onClose={closeModal}/>
                 <div style={{padding:"22px 24px"}}>
                   <div style={{display:"flex",alignItems:"center",gap:14,background:"var(--surface)",border:"1px solid var(--border)",borderRadius:14,padding:14,marginBottom:20}}>
                     <div style={{width:44,height:44,borderRadius:12,display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,border:`1px solid ${hireAgent.color}33`,background:hireAgent.bg,color:hireAgent.color,flexShrink:0}}>{hireAgent.icon}</div>
-                    <div><div style={{fontSize:14,fontWeight:700,color:"#fff"}}>{name}</div><div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:"var(--muted)",marginTop:3}}>Agent #{hireAgent.id} · Owner: {short(hireAgent.owner)}</div></div>
+                    <div><div style={{fontSize:14,fontWeight:700,color:"#fff"}}>{hireAgent.name}</div><div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:10,color:"var(--muted)",marginTop:3}}>Agent #{hireAgent.id} · Owner: {short(hireAgent.owner)}</div></div>
                   </div>
                   {hireError&&<Alert type="err">{hireError}</Alert>}
                   <Field label="Describe the job (optional)">
@@ -761,6 +811,7 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* HIRING */}
               {modal==="hiring"&&hireAgent&&<>
                 <MHdr title="Processing Payment…" onClose={()=>{}}/>
                 <div style={{padding:"48px 24px",textAlign:"center"}}>
@@ -770,6 +821,7 @@ export default function Page() {
                 </div>
               </>}
 
+              {/* HIRE DONE */}
               {modal==="hire-done"&&hireAgent&&<>
                 <MHdr title="Agent Hired!" onClose={closeModal}/>
                 <div style={{padding:"22px 24px"}}>
@@ -793,6 +845,7 @@ export default function Page() {
           </div>
         )}
 
+        {/* TOAST */}
         {toast&&(
           <div style={{position:"fixed",bottom:24,right:24,zIndex:9999,background:"var(--card)",border:`1px solid ${toastColors[toast.type]||"var(--cyan)"}44`,borderRadius:12,padding:"12px 18px",fontFamily:"'JetBrains Mono',monospace",fontSize:12,color:toastColors[toast.type]||"var(--cyan)",maxWidth:340,boxShadow:"0 8px 32px rgba(0,0,0,.4)",animation:"modal-in .25s ease both"}}>
             {toast.msg}
