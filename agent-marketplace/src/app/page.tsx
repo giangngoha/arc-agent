@@ -18,7 +18,7 @@ type ModalState =
 const ARC_CHAIN = {
   chainId: "0x4CEF52", // 5042002
   chainName: "Arc Testnet",
-  nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 6 },
+  nativeCurrency: { name: "USDC", symbol: "USDC", decimals: 18 },
   rpcUrls: ["https://rpc.testnet.arc.network"],
   blockExplorerUrls: ["https://testnet.arcscan.app"],
 };
@@ -261,8 +261,13 @@ export default function Page() {
   }
 },[ethersReady, chainLoaded, chainLoading]);
 
-  useEffect(()=>{ loadChainAgents(); },[loadChainAgents]);
-
+  // Load every time open web or refresh
+  useEffect(()=>{
+    if(ethersReady && !chainLoading){
+     setChainLoaded(false); 
+     loadChainAgents();
+    }
+  },[ethersReady]); 
   // ── Filter ───────────────────────────────────────────────────────────────
   const filtered = useMemo(()=>{
     return [...agents]
@@ -662,7 +667,11 @@ export default function Page() {
 
             {/* Reload from chain button */}
             <div style={{textAlign:"center",marginTop:40}}>
-              <button onClick={()=>{setChainLoaded(false);setTimeout(loadChainAgents,100);}}
+              <button onClick={()=>{
+                  setChainLoaded(false);
+                  setChainLoading(false);
+                  setTimeout(()=>loadChainAgents(), 200);
+              }}
                 style={{fontFamily:"'JetBrains Mono',monospace",fontSize:11,padding:"10px 24px",borderRadius:10,border:"1px solid var(--border2)",background:"transparent",color:chainLoading?"var(--amber)":"var(--muted)",cursor:"pointer",transition:"all .2s"}}
                 disabled={chainLoading}>
                 {chainLoading?"⟳ Loading…":"↻ Refresh from blockchain"}
